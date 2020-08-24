@@ -1,0 +1,80 @@
+<div class="container">
+  <%= form_with(model: user, local: true) do |form| %>
+    <% if user.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+        <ul>
+          <% user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <table class="table table-bordered w-auto">
+      <tbody>
+        <tr>
+          <td><%= form.label :name %></td>
+          <td><%= form.text_field :name %></td>
+        </tr>
+
+        <tr>
+          <td><%= form.label :email %></td>
+          <td><%= form.email_field :email %></td>
+        </tr>
+
+        <tr>
+          <td><%= form.label :gender %></td>
+          <td>
+              <%= form.radio_button :gender,"Male" %>
+              <%= form.label :Male %>
+              <%= form.radio_button :gender, "Female" %>
+              <%= form.label :Female %>
+          </td>
+        </tr>
+
+        <tr>
+          <td><%= form.label :hobies %></td>
+          <td>
+            
+            <%= form.check_box( "hobies", {:multiple => true}, "Cricket", nil) %>  
+            <%= form.label :Cricket %>
+            <%= form.check_box( "hobies", {:multiple => true}, "Chess", nil) %>
+            <%= form.label :Chess %>
+            <%= form.check_box( "hobies", {:multiple => true}, "Travelling", nil) %>
+            <%= form.label :Travelling %>
+            
+          </td>
+      
+        </tr>
+        
+        <tr>
+          <td><%= form.label :age %></td>
+          <td>
+            <%= form.number_field :age %>
+          </td>
+        </tr>
+
+        <tr>
+          <td><%= form.label :state %></td>
+          <td>
+            <%= form.select :state, ['option1', 'option2']%>
+          </td>
+        </tr>
+
+        <tr>
+          <td><%= form.label :city %></td>
+          <td>
+              <%= form.select :state, ['option1', 'option2']%>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
+</div>
+
+
