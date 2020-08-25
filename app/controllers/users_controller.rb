@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    puts render json: { html: render_to_string(partial: 'random') }
   end
 
   # GET /users/new
@@ -25,7 +26,13 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
+
+    if user_params[:hobies] == nil 
+      @user.hobies = nil
+    else
     @user.hobies = user_params[:hobies].join(',')
+    end
+
     respond_to do |format|
       if @user.save
   

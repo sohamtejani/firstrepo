@@ -39,11 +39,11 @@
           <td>
             
             <%= form.check_box( "hobies", {:multiple => true}, "Cricket", nil) %>  
-            <%= form.label :Cricket %>
+            <%= form.label :cricket %>
             <%= form.check_box( "hobies", {:multiple => true}, "Chess", nil) %>
-            <%= form.label :Chess %>
+            <%= form.label :chess %>
             <%= form.check_box( "hobies", {:multiple => true}, "Travelling", nil) %>
-            <%= form.label :Travelling %>
+            <%= form.label :travelling %>
             
           </td>
       
@@ -66,7 +66,7 @@
         <tr>
           <td><%= form.label :city %></td>
           <td>
-              <%= form.select :state, ['option1', 'option2']%>
+              <%= form.select :city, ['option1', 'option2']%>
           </td>
         </tr>
       </tbody>
