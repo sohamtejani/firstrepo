@@ -26,8 +26,8 @@
         <td><%= user.gender %></td>
         <td><%= user.hobies %></td>
         <td><%= user.age %></td>
-        <td><%= user.state %></td>
-        <td><%= user.city %></td>
+        <td><%= user.state.name %></td>
+        <td><%= user.city.name %></td>
         <td><%= link_to 'Show', user %></td>
         <td><%= link_to 'Edit', edit_user_path(user) %></td>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>

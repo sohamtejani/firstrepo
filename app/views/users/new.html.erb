@@ -6,3 +6,7 @@
     <%= link_to 'Back', users_path %>
     <!-- <%= button_to "Add", users_path, method: :get %> -->
 </div>
+<script>
+    $('#user_state_id').prepend('<option selected>Select State</option>');
+    $('#user_city_id').html('<option value="">Select City</option>');
+</script>

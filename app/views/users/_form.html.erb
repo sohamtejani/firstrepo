@@ -16,12 +16,20 @@
       <tbody>
         <tr>
           <td><%= form.label :name %></td>
-          <td><%= form.text_field :name %></td>
+          <td>
+            <div class="field">
+              <%= form.text_field :name %>
+            </div>
+          </td>
         </tr>
 
         <tr>
           <td><%= form.label :email %></td>
-          <td><%= form.email_field :email %></td>
+          <td>
+            <div class="field">
+              <%= form.email_field :email %>
+            </div>
+          </td>
         </tr>
 
         <tr>
@@ -37,36 +45,35 @@
         <tr>
           <td><%= form.label :hobies %></td>
           <td>
-            
-            <%= form.check_box( "hobies", {:multiple => true}, "Cricket", nil) %>  
+            <%= form.check_box( "hobies", {:multiple => true , :checked => @hobby.include?("Cricket") }, "Cricket" ,nil)%>  
             <%= form.label :cricket %>
-            <%= form.check_box( "hobies", {:multiple => true}, "Chess", nil) %>
+            <%= form.check_box( "hobies", {:multiple => true, :checked => @hobby.include?("Chess")}, "Chess",nil) %>
             <%= form.label :chess %>
-            <%= form.check_box( "hobies", {:multiple => true}, "Travelling", nil) %>
+            <%= form.check_box( "hobies", {:multiple => true,:checked => @hobby.include?("Travelling") }, "Travelling",nil) %>
             <%= form.label :travelling %>
-            
           </td>
-      
         </tr>
-        
+
         <tr>
           <td><%= form.label :age %></td>
           <td>
-            <%= form.number_field :age %>
+            <div class="field">
+              <%= form.number_field :age %>
+            </div>
           </td>
         </tr>
 
         <tr>
-          <td><%= form.label :state %></td>
+          <td><%= form.label :state_id %></td>
           <td>
-            <%= form.select :state, ['option1', 'option2']%>
+            <%= form.select :state_id, State.all.collect { |s| [ s.name, s.id , class: "form-control" , selected: :state_id == @state_id? @state_id : false] }%>
           </td>
         </tr>
 
-        <tr>
-          <td><%= form.label :city %></td>
+        <tr> 
+          <td><%= form.label :city_id %></td>
           <td>
-              <%= form.select :city, ['option1', 'option2']%>
+            <%= form.select :city_id, City.where(state_id: @state_id).collect { |c| [c.name, c.id, selected: :city_id == @city_id ? @city_id : false ] }  %>
           </td>
         </tr>
       </tbody>
@@ -75,6 +82,42 @@
       <%= form.submit %>
     </div>
   <% end %>
+  
 </div>
 
+<script>
 
+  console.log("<%= @State_id %>",'dgyry')
+  $(document).ready(function(){
+    
+    
+
+    $("#user_state_id").attr("class", "form-control");
+    $("#user_city_id").attr("class", "form-control"); 
+
+
+
+    $('#user_state_id').change(function(){
+      var id = this.value;
+      $.ajax( {
+        url:"/"+id+"/get_city",
+        type: 'GET',
+        success: function (data, status, xhr) {
+          $('#user_city_id').html("");
+          $('#user_city_id').html('<option class="form-control" value="">Select City</option>');
+          // console.log(data.cities)
+          var cities  = data.cities
+
+          $.each(cities, function (index, value) {
+            var optn = $(`<option class="form-control" value="${value.id}">${value.name}</option>`);
+            $('#user_city_id').append(optn);
+          });
+          
+        }
+        // error: function (jqXhr, textStatus, errorMessage) {
+        //   $('p').append('Error' + errorMessage);
+        // }
+      });
+    });
+  });
+</script>

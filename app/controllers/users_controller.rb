@@ -10,34 +10,32 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    puts render json: { html: render_to_string(partial: 'random') }
+    
   end
 
   # GET /users/new
   def new
     @user = User.new
+    @hobby = []
   end
 
   # GET /users/1/edit
   def edit
+    @hobby = @user.hobies.split(',')
+    @state_id = @user.state_id
+    @city_id = @user.city_id
   end
 
+  
   # POST /users
   # POST /users.json
   def create
     @user = User.new(user_params)
-
-    if user_params[:hobies] == nil 
-      @user.hobies = nil
-    else
     @user.hobies = user_params[:hobies].join(',')
-    end
 
     respond_to do |format|
       if @user.save
-  
         format.html { redirect_to @user, notice: 'User was successfully created.' }
-
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -50,7 +48,12 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
+  
       if @user.update(user_params)
+        
+        @user.hobies = user_params[:hobies].join(',')
+        @user.save   
+
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -59,6 +62,7 @@ class UsersController < ApplicationController
       end
     end
   end
+
 
   # DELETE /users/1
   # DELETE /users/1.json
@@ -70,6 +74,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def get_city
+    id = params[:state_id]
+    cities = City.where(state_id: id)
+    respond_to do |format|
+      format.json { render json: {cities: cities, success: true} }
+    end
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -78,6 +91,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :email,:gender, :age, :state, :city, :hobies => [])
+      params.require(:user).permit(:name, :email,:gender, :age, :state_id, :city_id, :hobies => [])
     end
 end

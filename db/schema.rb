@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_21_134525) do
+ActiveRecord::Schema.define(version: 2020_08_25_124312) do
+
+  create_table "cities", force: :cascade do |t|
+    t.string "name"
+    t.integer "state_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["state_id"], name: "index_cities_on_state_id"
+  end
+
+  create_table "states", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "students", force: :cascade do |t|
     t.string "name"
@@ -30,10 +44,14 @@ ActiveRecord::Schema.define(version: 2020_08_21_134525) do
     t.string "gender"
     t.string "hobies"
     t.string "age"
-    t.string "state"
-    t.string "city"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "state_id", null: false
+    t.integer "city_id", null: false
+    t.index ["city_id"], name: "index_users_on_city_id"
+    t.index ["state_id"], name: "index_users_on_state_id"
   end
 
+  add_foreign_key "users", "cities"
+  add_foreign_key "users", "states"
 end

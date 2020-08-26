@@ -1,0 +1,1 @@
+<%= form.select :city_id, City.all.collect { |c| [ c.name, c.id] }, include_blank: true %>
